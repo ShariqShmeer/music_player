@@ -83,8 +83,9 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
       OnTapFavouriteEvent event, Emitter<PlayerState> emit) async {
     final alreadyExist =
         await dbHelper.isFavoriteExists(event.file.name.toString());
+
     if (alreadyExist) {
-      showDialog(
+      final result = await showDialog<bool>(
         context: event.context,
         builder: (context) {
           return AlertDialog(
@@ -97,7 +98,7 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
                   fontSize: 12),
             ),
             content: Text(
-              'This soong is already in favourite list, are you sure to delete it',
+              'This song is already in favourite list, are you sure to delete it?',
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 10,
@@ -105,22 +106,21 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
             ),
             actions: [
               InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Text(
-                    'Cancle',
-                    style: TextStyle(fontSize: 12, color: Colors.black),
-                  )),
-              SizedBox(
-                width: 10,
+                onTap: () =>
+                    Navigator.pop(context, false), // Return false if canceled
+                child: Text(
+                  'Cancel',
+                  style: TextStyle(fontSize: 12, color: Colors.black),
+                ),
               ),
+              SizedBox(width: 10),
               InkWell(
                 onTap: () async {
                   await dbHelper.delete(event.file.name.toString());
-                  Navigator.pop(context);
-                  emit(state.copyWith(isFavourite: false));
+                  Navigator.pop(context, true); // Return true if confirmed
                 },
                 child: Text(
-                  'ok',
+                  'Ok',
                   style: TextStyle(
                       color: Colors.red,
                       fontWeight: FontWeight.bold,
@@ -131,10 +131,14 @@ class PlayerBloc extends Bloc<PlayerEvent, PlayerState> {
           );
         },
       );
+
+      // Check the result from the dialog
+      if (result == true) {
+        emit(state.copyWith(isFavourite: false));
+      }
     } else {
       await dbHelper.insert(event.file);
       emit(state.copyWith(isFavourite: true));
-
     }
   }
 

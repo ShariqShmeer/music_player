@@ -48,9 +48,10 @@ class SongsList extends StatelessWidget {
             )
           ],
         ),
-
-        Expanded(child: BlocBuilder<HomeBloc, HomeState>(
-          buildWhen: (previous, current) => previous.songList!=current.songList,
+        Expanded(
+            child: BlocBuilder<HomeBloc, HomeState>(
+          buildWhen: (previous, current) =>
+              previous.songList != current.songList,
           builder: (context, state) {
             return ResponsiveLayout(
               mobileCrossAxisCount: 1,
@@ -67,7 +68,9 @@ class SongsList extends StatelessWidget {
                 final String image = Utils.getRandomImage();
                 return Padding(
                   padding: !ResponsiveLayout.isLargeMobile(context)
-                      ? const EdgeInsets.only(top: 15, )
+                      ? const EdgeInsets.only(
+                          top: 15,
+                        )
                       : const EdgeInsets.only(top: 15),
                   child: GestureDetector(
                     onTap: () {
@@ -83,8 +86,11 @@ class SongsList extends StatelessWidget {
                     },
                     child: Container(
                       alignment: Alignment.center,
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
                         color: backgroundColor,
                         borderRadius: BorderRadius.circular(5),
@@ -100,17 +106,17 @@ class SongsList extends StatelessWidget {
                         ],
                       ),
                       child: SongWidget(
-                          image: image,
-                          file: state.songList[index],
-                          name: state.songList[index].name.toString(),
-                          length: state.songList[index].length.toString(),),
+                        image: image,
+                        file: state.songList[index],
+                        name: state.songList[index].name.toString(),
+                        length: state.songList[index].length.toString(),
+                      ),
                     ),
                   ),
                 );
               },
               itemCount: state.songList.length,
             );
-
           },
         ))
       ],

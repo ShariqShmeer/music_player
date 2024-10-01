@@ -8,6 +8,7 @@ import 'package:music/view/player/components/song_controllers.dart';
 import 'package:music/view/player/components/song_title.dart';
 
 import 'components/song_circle_container.dart';
+
 class Player extends StatelessWidget {
   const Player({super.key, required this.file, required this.image});
   final AudioFile file;
@@ -16,20 +17,22 @@ class Player extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child:Stack(
+        child: Stack(
           fit: StackFit.expand,
           children: [
             Positioned(
               top: 1,
-              height: MediaQuery.sizeOf(context).height-100,
+              height: MediaQuery.sizeOf(context).height - 100,
               width: MediaQuery.sizeOf(context).width,
               child: Center(
-                child: SongCircleContainer(file : file,image:image,
+                child: SongCircleContainer(
+                  file: file,
+                  image: image,
                 ),
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 30),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
               child: Column(
                 children: [
                   CustomAppBar(
@@ -37,6 +40,7 @@ class Player extends StatelessWidget {
                       onTap: () => Navigator.pop(context),
                       child: Icon(
                         Icons.keyboard_arrow_down_outlined,
+                        size: 30,
                         color: Colors.black,
                       ),
                     ),
@@ -45,16 +49,21 @@ class Player extends StatelessWidget {
                       width: 17,
                     ),
                   ),
-                  SongTitle(file: file,),
+                  SongTitle(
+                    file: file,
+                  ),
                   Spacer(),
-                  SongControllers(file: file,),
-                  const SizedBox(height: 50,),
+                  SongControllers(
+                    file: file,
+                  ),
+                  const SizedBox(
+                    height: 50,
+                  ),
                   const SongBottomContainer(),
                   // SizedBox(height: 40,)
                 ],
               ),
             ),
-
           ],
         ),
       ),

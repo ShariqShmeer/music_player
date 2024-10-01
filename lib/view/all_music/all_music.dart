@@ -16,10 +16,10 @@ class AllMusicAlbum extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: WillPopScope(
-        onWillPop: ()async{
-          if(context.read<AlbumBloc>().currentPage==0){
+        onWillPop: () async {
+          if (context.read<AlbumBloc>().currentPage == 0) {
             return true;
-          }else{
+          } else {
             context.read<AlbumBloc>().add(BackArrowTap(context: context));
             return false;
           }
@@ -36,12 +36,15 @@ class AllMusicAlbum extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: BlocBuilder<AlbumBloc, AlbumState>(
-                      buildWhen: (previous, current) => previous.appBarTitle!=current.appBarTitle,
+                      buildWhen: (previous, current) =>
+                          previous.appBarTitle != current.appBarTitle,
                       builder: (context, state) {
                         return CustomAppBar(
                           title: state.appBarTitle,
                           preIcon: GestureDetector(
-                            onTap: () => context.read<AlbumBloc>().add(BackArrowTap(context: context)),
+                            onTap: () => context
+                                .read<AlbumBloc>()
+                                .add(BackArrowTap(context: context)),
                             child: const Icon(
                               Icons.arrow_back_ios_new_rounded,
                               size: 20,
@@ -55,10 +58,9 @@ class AllMusicAlbum extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  Expanded(child: PageView(
-                    controller: context
-                        .read<AlbumBloc>()
-                        .pageController,
+                  Expanded(
+                      child: PageView(
+                    controller: context.read<AlbumBloc>().pageController,
                     physics: const NeverScrollableScrollPhysics(),
                     children: const [
                       FolderList(),

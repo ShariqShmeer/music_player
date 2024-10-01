@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:music/utils/utils.dart';
+import 'package:music/view/player/player.dart';
 
 import '../../../bloc/player_bloc/player_bloc.dart';
 import '../../../res/app_colors.dart';
@@ -26,9 +28,17 @@ class HomeBottomPlayer extends StatelessWidget {
               child: SizedBox(
                 width: MediaQuery.sizeOf(context).width - 40,
                 child: Center(
-                  child: ClipRect(
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
+                    child: GestureDetector(
+                      onTap: () {
+                        Utils.go(
+                            context: context,
+                            screen: Player(
+                              file: state.file!,
+                              image: AppIcons.splashIcons,
+                            ));
+                      },
                       child: Container(
                         height: 80,
                         width: 350,
@@ -39,7 +49,7 @@ class HomeBottomPlayer extends StatelessWidget {
                         child: Row(
                           children: [
                             const CircleAvatar(
-                              radius: 27,
+                              radius: 29,
                               backgroundImage: AssetImage(AppIcons.splashIcons),
                             ),
                             const SizedBox(
@@ -81,7 +91,7 @@ class HomeBottomPlayer extends StatelessWidget {
                                     child: LinearProgressIndicator(
                                       borderRadius: BorderRadius.circular(10),
                                       backgroundColor:
-                                      Colors.grey.withOpacity(.1),
+                                          Colors.grey.withOpacity(.1),
                                       color: blueBackground,
                                       value: state.progress,
                                     ),
@@ -89,7 +99,9 @@ class HomeBottomPlayer extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            SizedBox(width: 20,),
+                            SizedBox(
+                              width: 20,
+                            ),
                             Row(
                               children: [
                                 GestureDetector(
@@ -120,7 +132,7 @@ class HomeBottomPlayer extends StatelessWidget {
                                     backgroundColor: blueBackground,
                                     child: Center(
                                       child:
-                                      BlocBuilder<PlayerBloc, PlayerState>(
+                                          BlocBuilder<PlayerBloc, PlayerState>(
                                         builder: (context, state) {
                                           return SvgPicture.asset(
                                             state.isPlaying
